@@ -585,6 +585,27 @@ button.doodle-box:hover,.card:hover,.posts li:hover,.checklist li:hover{
 .pres-help[hidden]{display:none;}
 .pres-help b{letter-spacing:.2em;color:var(--accent);}
 
+/* ---------- credit ---------- */
+.by-line{
+  position:fixed;
+  right:calc(12px + var(--sar));bottom:calc(10px + var(--sab));
+  z-index:70;
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 9px;
+  font-size:.6rem;letter-spacing:.06em;text-decoration:none;
+  color:var(--cream);
+  background:var(--panel-lifted);
+  border:2px solid var(--outline);
+  border-radius:8px 6px 9px 7px;
+  box-shadow:2px 3px 0 var(--shadow);
+  transition:transform .12s,box-shadow .12s;
+  white-space:nowrap;
+  user-select:none;-webkit-user-select:none;
+}
+.by-line b{color:var(--accent);}
+.by-line:hover{transform:translateY(2px);box-shadow:0 0 0 var(--shadow);}
+@media (max-width:560px){.by-line{font-size:.52rem;padding:2px 7px;}}
+
 /* ---------- responsive ---------- */
 @media (max-width:1180px){
   #telemetry{display:none;}
