@@ -1,0 +1,20 @@
+# keep the repo light — see README "Assets"
+assets/extracted/
+assets/*.zip
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+assets/*.gif
+assets/*.psd
+assets/*.eps
+assets/*.ai
+
+# os
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# editors / logs
+*.log
+.idea/
+.vscode/

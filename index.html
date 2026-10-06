@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>KRACKED_OS // Slide Studio — KrackedDevs Creative Bounty</title>
+<meta name="description" content="Ghibli low-poly sketch interface: wheel-parallax particle brains, 360 degree hold-and-rotate ParentSelector navigation, and a lightweight Slide Studio for uploading or pasting decks with 4 KD background themes." />
+<meta name="theme-color" content="#0f1c1e" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" href="assets/icons/wc-04.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="stage">
+
+  <canvas id="brains" aria-hidden="true"></canvas>
+  <div id="grain" aria-hidden="true"></div>
+  <div id="brainLabels" aria-hidden="true">
+    <div class="brain-label" data-depth="0.4"><b>BUILD</b><span class="mono">depth 0.4x</span></div>
+    <div class="brain-label" data-depth="0.7"><b>LEARN</b><span class="mono">depth 0.7x</span></div>
+    <div class="brain-label" data-depth="1.0"><b>EARN</b><span class="mono">depth 1.0x</span></div>
+  </div>
+
+  <header id="topbar">
+    <div class="brand doodle-box">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M6 30 L14 10 L22 24 L28 14 L34 30 Z" />
+        <circle cx="20" cy="33" r="2.4" />
+      </svg>
+      <span>KRACKED<em>_OS</em></span>
+    </div>
+    <div class="top-meta mono">CREATIVE BOUNTY // GHIBLI LOW-POLY BUILD</div>
+    <div class="top-actions">
+      <button class="mini-btn" id="btnPanelMenu" aria-label="Open navigation menu">MENU</button>
+      <button class="mini-btn ghost" id="btnSound" aria-label="Toggle tick sound">TICK: ON</button>
+    </div>
+  </header>
+
+  <!-- LEFT INDICATOR -->
+  <aside id="indicator" class="doodle-box">
+    <div class="panel-head mono">INDICATOR</div>
+    <nav id="indNav"><!-- built by app.js --></nav>
+    <div class="panel-foot mono">ParentPage → ChildPage</div>
+  </aside>
+
+  <!-- RIGHT TELEMETRY -->
+  <aside id="telemetry" class="doodle-box">
+    <div class="panel-head mono">TELEMETRY</div>
+    <dl class="mono">
+      <div><dt>scrollMotion</dt><dd id="tMotion">idle</dd></div>
+      <div><dt>InertiaRotate</dt><dd>smooth</dd></div>
+      <div><dt>NavTabItem</dt><dd id="tIndex">1 / 14</dd></div>
+      <div><dt>parent</dt><dd id="tParent">PARENTITEM1</dd></div>
+      <div><dt>particles</dt><dd id="tParticles">0</dd></div>
+      <div><dt>pointer</dt><dd id="tPointer">0,0</dd></div>
+      <div><dt>viewport</dt><dd id="tView">0x0</dd></div>
+      <div><dt>fps</dt><dd id="tFps">60</dd></div>
+    </dl>
+    <div class="panel-foot mono">mwheelup / mwheeldown → parallax</div>
+  </aside>
+
+  <!-- CONTENT PANEL -->
+  <main id="panel" class="doodle-box" hidden>
+    <div class="panel-top">
+      <span class="panel-crumb mono" id="panelCrumb">ParentPage1 / FeaturedDevelopers</span>
+      <button class="mini-btn" id="btnClosePanel" aria-label="Close panel">CLOSE ✕</button>
+    </div>
+    <div class="panel-scroll" id="panelScroll">
+
+      <!-- P1 · HOME -->
+      <section class="child" data-child="featured">
+        <h2>Featured Developers</h2>
+        <p class="lede">Three builders shipping the strangest, sharpest work in the guild this week.</p>
+        <div class="grid3">
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-04.png" alt="" /><h3>Nyx · Shader Witch</h3><p>Hand-rolled grease-pencil renderer for browser point clouds. 14kb, zero deps.</p><span class="tag mono">BUILD</span></article>
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-13.png" alt="" /><h3>Rook · Prompt Smith</h3><p>Turns 900 words of keynote mush into slide decks that actually read well.</p><span class="tag mono">LEARN</span></article>
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-27.png" alt="" /><h3>Mika · Deck Engineer</h3><p>Ships the fullscreen presenter: pen, laser, grid, timer. All vanilla JS.</p><span class="tag mono">EARN</span></article>
+        </div>
+      </section>
+
+      <section class="child" data-child="bulletin">
+        <h2>Bulletin Board</h2>
+        <ul class="posts">
+          <li class="doodle-box"><b>Bounty drop 07</b> — Ghibli low-poly navigation template is live. Wheels only, no vertical scroll. <span class="mono">2h ago</span></li>
+          <li class="doodle-box"><b>Studio is open</b> — upload a .pptx or paste prompts, pick a KD background, hit Present. <span class="mono">5h ago</span></li>
+          <li class="doodle-box"><b>Style guard</b> — no neon, no glassmorphism, no hard chrome. Sketch outlines only. <span class="mono">1d ago</span></li>
+          <li class="doodle-box"><b>Jam reminder</b> — Agentic Qualifier 2026 submissions close Friday 23:59 UTC. <span class="mono">2d ago</span></li>
+        </ul>
+      </section>
+
+      <section class="child" data-child="xfeed">
+        <h2>x Feed</h2>
+        <ul class="posts">
+          <li class="doodle-box"><b>@krackeddevs</b> — held the dial for 180ms, rotated 360°, landed on Slide Studio. this is the future. <span class="mono">12m</span></li>
+          <li class="doodle-box"><b>@lowpoly_lab</b> — 5% soft edges + a black marker outline is the whole aesthetic. that's it. that's the tweet. <span class="mono">48m</span></li>
+          <li class="doodle-box"><b>@deckgoblin</b> — pasted 40 slides of prompts, got a fullscreen deck with a laser pointer. lightweight &gt; heavy. <span class="mono">3h</span></li>
+        </ul>
+      </section>
+
+      <section class="child" data-child="hackathon">
+        <h2>Upcoming Hackathon</h2>
+        <div class="hero-card doodle-box">
+          <img class="card-ico big" src="assets/icons/wc-41.png" alt="" />
+          <div>
+            <h3>KRACKED JAM · Agent Edition</h3>
+            <p>48 hours. Three tracks: BUILD · LEARN · EARN. Ship a browser-native agent experience with no framework bloat.</p>
+            <div class="countdown mono" id="countdown">— — —</div>
+          </div>
+        </div>
+        <div class="grid3">
+          <div class="doodle-box stat"><b>48h</b><span class="mono">clock</span></div>
+          <div class="doodle-box stat"><b>3</b><span class="mono">tracks</span></div>
+          <div class="doodle-box stat"><b>$12k</b><span class="mono">pool</span></div>
+        </div>
+      </section>
+
+      <section class="child" data-child="qualifier">
+        <h2>Agentic Qualifier 2026</h2>
+        <p class="lede">Four gates. Clear them in any order — the dial does not judge.</p>
+        <ul class="checklist">
+          <li class="doodle-box done"><b>Gate 01</b> — Ship an interactive intro that reacts to mwheeldown. <span class="mono">DONE</span></li>
+          <li class="doodle-box done"><b>Gate 02</b> — Navigation must survive a 360° rotation gesture. <span class="mono">DONE</span></li>
+          <li class="doodle-box"><b>Gate 03</b> — Deck in, deck out: upload or paste, present fullscreen. <span class="mono">OPEN</span></li>
+          <li class="doodle-box"><b>Gate 04</b> — Publish the repo, README, and About. Public. <span class="mono">OPEN</span></li>
+        </ul>
+      </section>
+
+      <!-- P2 · CSR / LEARNING -->
+      <section class="child" data-child="csr">
+        <h2>CSR Projects</h2>
+        <div class="grid3">
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-08.png" alt="" /><h3>River Ledger</h3><p>Open water-quality data from 14 community sensors, visualised as a hand-drawn map.</p></article>
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-19.png" alt="" /><h3>Lab Rescue</h3><p>Refurbished lab hours donated to after-school coding clubs across three districts.</p></article>
+          <article class="doodle-box card"><img class="card-ico" src="assets/icons/wc-35.png" alt="" /><h3>Paper Trail</h3><p>Digitising 40 years of community archives with volunteers and OCR sprints.</p></article>
+        </div>
+      </section>
+
+      <section class="child" data-child="volunteer">
+        <h2>Volunteer Form</h2>
+        <p class="lede">Two fields. No zoom on focus — the 16px rule is enforced.</p>
+        <form class="doodle-box form" id="volForm" autocomplete="off">
+          <label>Handle<input id="volName" type="text" placeholder="your handle" /></label>
+          <label>Track
+            <select id="volTrack"><option>BUILD</option><option>LEARN</option><option>EARN</option></select>
+          </label>
+          <button class="doodle-btn" type="submit">Sign me up</button>
+          <p class="form-note mono" id="volNote">status: waiting</p>
+        </form>
+      </section>
+
+      <section class="child" data-child="vision">
+        <h2>Vision &amp; Goals</h2>
+        <ul class="timeline">
+          <li class="doodle-box"><b>2026 Q1</b> — Make the browser feel like paper: outlines, weight, grain.</li>
+          <li class="doodle-box"><b>2026 Q2</b> — Every bounty ships a public repo, README, and honest About.</li>
+          <li class="doodle-box"><b>2026 Q3</b> — Learning tracks that end in a shipped artefact, not a certificate.</li>
+          <li class="doodle-box"><b>2026 Q4</b> — 1,000 builders rotating the dial.</li>
+        </ul>
+      </section>
+
+      <section class="child" data-child="courses">
+        <h2>Courses · HTML-CSS-JS</h2>
+        <div class="courses">
+          <div class="doodle-box course"><span class="mono">01</span><b>Boxes that breathe</b><div class="bar"><i style="--w:100%"></i></div></div>
+          <div class="doodle-box course"><span class="mono">02</span><b>Hand-drawn outlines</b><div class="bar"><i style="--w:78%"></i></div></div>
+          <div class="doodle-box course"><span class="mono">03</span><b>Pointer events &amp; gestures</b><div class="bar"><i style="--w:54%"></i></div></div>
+          <div class="doodle-box course"><span class="mono">04</span><b>Canvas low-poly brains</b><div class="bar"><i style="--w:32%"></i></div></div>
+        </div>
+      </section>
+
+      <section class="child" data-child="milestone">
+        <h2>x Milestone</h2>
+        <div class="grid3">
+          <div class="doodle-box stat"><b id="mStreak">12</b><span class="mono">day streak</span></div>
+          <div class="doodle-box stat"><b>4/6</b><span class="mono">gates cleared</span></div>
+          <div class="doodle-box stat"><b id="mDial">0</b><span class="mono">dial rotations</span></div>
+        </div>
+        <ul class="posts">
+          <li class="doodle-box"><b>+250 XP</b> — held the selector past 180ms on the first try. <span class="mono">today</span></li>
+          <li class="doodle-box"><b>+80 XP</b> — pasted a deck and survived the parse. <span class="mono">today</span></li>
+        </ul>
+      </section>
+
+      <section class="child" data-child="gallery">
+        <h2>Gallery</h2>
+        <p class="lede">Watercolour stickers pulled from the bounty asset pack — used across this page.</p>
+        <div class="sticker-wall" id="stickerWall"></div>
+      </section>
+
+      <!-- P3 · STUDIO (new section) -->
+      <section class="child" data-child="slides">
+        <h2 class="slides-title">Upload your slides or Paste your Slides/keynote/pptx prompts, ensure the slides have all the content inside</h2>
+        <div class="slides-grid">
+          <div class="doodle-box drop" id="dropzone" tabindex="0" role="button" aria-label="Upload slides file">
+            <img class="drop-ico" src="assets/icons/wc-47.png" alt="" />
+            <strong>Upload your slides</strong>
+            <span class="mono">.pptx · .md · .txt · .key · drag &amp; drop</span>
+            <span class="mono drop-hint" id="dropHint">click or drop a file</span>
+            <input type="file" id="fileInput" accept=".pptx,.key,.md,.markdown,.txt,.text,.json,.csv,.html" hidden />
+          </div>
+          <div class="doodle-box paste">
+            <label class="mono" for="pasteBox">PASTE SLIDES / KEYNOTE / PPTX PROMPTS</label>
+            <textarea id="pasteBox" spellcheck="false" placeholder="Slide 1: Ship the dial&#10;• press + hold 180ms&#10;• rotate 360 degrees&#10;---&#10;Slide 2: Ship the deck&#10;• upload or paste&#10;• present fullscreen"></textarea>
+            <div class="row">
+              <button class="doodle-btn" id="loadPaste" type="button">Load deck</button>
+              <button class="ghost-btn" id="loadDemo" type="button">Demo deck</button>
+              <button class="ghost-btn" id="clearDeck" type="button">Clear</button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sub">Background slides — choose one</h3>
+        <div class="theme-cards" id="themeCards" role="radiogroup" aria-label="Slide background theme">
+          <label class="theme-card doodle-box is-on" data-theme="kd" role="radio" aria-checked="true">
+            <span class="swatch sw-kd"></span><b>KD Theme</b><span class="mono">ghibli low-poly · teal</span>
+          </label>
+          <label class="theme-card doodle-box" data-theme="pink" role="radio" aria-checked="false">
+            <span class="swatch sw-pink"></span><b>KD Pink theme</b><span class="mono">watercolour · rose</span>
+          </label>
+          <label class="theme-card doodle-box" data-theme="game" role="radio" aria-checked="false">
+            <span class="swatch sw-game"></span><b>KD Gamified theme</b><span class="mono">arcade · scoreboard</span>
+          </label>
+          <label class="theme-card doodle-box" data-theme="doodle" role="radio" aria-checked="false">
+            <span class="swatch sw-doodle"></span><b>KD Doodle theme</b><span class="mono">paper · marker ink</span>
+          </label>
+        </div>
+
+        <div class="deck-row">
+          <span class="deck-status mono" id="deckStatus">deck: demo · 5 slides</span>
+          <button class="doodle-btn big" id="presentBtn" type="button">▶ Present fullscreen</button>
+        </div>
+        <p class="lede tiny">Presenter tools: arrows / swipe to navigate, <b>pen</b>, <b>laser</b>, <b>grid</b>, <b>timer</b>, <b>theme</b>, <b>blackout</b>, <b>fullscreen</b>, <b>?</b> for shortcuts.</p>
+      </section>
+
+      <section class="child" data-child="present">
+        <h2>Present Mode</h2>
+        <p class="lede">Everything the fullscreen deck gives you. All vanilla, all lightweight.</p>
+        <div class="grid3">
+          <div class="doodle-box card"><h3>Navigate</h3><p>← → · Space · swipe · click zones · <b>G</b> grid overview.</p></div>
+          <div class="doodle-box card"><h3>Annotate</h3><p><b>P</b> pen · <b>L</b> laser · <b>C</b> clear ink · strokes stay per slide.</p></div>
+          <div class="doodle-box card"><h3>Control</h3><p><b>T</b> timer · <b>M</b> theme · <b>B</b> blackout · <b>F</b> fullscreen · <b>Esc</b> exit.</p></div>
+        </div>
+        <div class="row"><button class="doodle-btn big" id="presentBtn2" type="button">▶ Launch presenter</button></div>
+      </section>
+
+      <section class="child" data-child="repo">
+        <h2>Repo Notes</h2>
+        <div class="grid3">
+          <article class="doodle-box card"><h3>Zero frameworks</h3><p>HTML + CSS + vanilla JS. PPTX is unzipped in-browser with DecompressionStream.</p></article>
+          <article class="doodle-box card"><h3>Viewport locked</h3><p>position:fixed root, no zoom, no long-press callout, safe-area respected.</p></article>
+          <article class="doodle-box card"><h3>Public submission</h3><p>README + About pushed with the source. MIT where the assets allow.</p></article>
+        </div>
+        <p class="lede">Built for the KrackedDevs creative bounty · design source: krackeddevs-nav-ghibli-template.json</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- LIVE DISPLAY NAME -->
+  <div id="displayName" class="mono"><span id="displayNameText">DisplayPARENTITEM1OverviewName</span></div>
+
+  <!-- PARENT SELECTOR -->
+  <div id="selectorWrap">
+    <div id="rotRing" aria-hidden="true"><svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="52" /><circle class="ring-fg" cx="60" cy="60" r="52" /></svg></div>
+    <button id="parentSelector" aria-label="Hold and rotate the navigation dial">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5 L26 16 L16 27 L6 16 Z" /><circle cx="16" cy="16" r="3" /></svg>
+    </button>
+    <div class="sel-hint mono" id="selHint">HOLD + ROTATE 360°</div>
+  </div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="intro-scatter" id="introScatter" aria-hidden="true"></div>
+    <div class="intro-inner">
+      <div class="intro-eyebrow mono">K R A C K E D D E V S &nbsp;//&nbsp; CREATIVE BOUNTY 2026</div>
+      <div class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 220 220">
+          <g class="em-spin">
+            <path class="rough" d="M110 18 C160 20 200 58 202 110 C204 162 164 202 110 202 C56 202 18 162 18 110 C18 60 58 20 110 18 Z" />
+            <path class="rough faint" d="M110 44 C148 46 176 74 178 110 C180 148 150 176 110 176 C70 176 44 148 44 110 C44 72 72 46 110 44 Z" />
+          </g>
+          <g class="em-shards">
+            <polygon points="110,58 138,84 124,120 96,120 82,84" />
+            <polygon points="70,128 96,140 92,172 62,164" />
+            <polygon points="150,128 158,164 128,172 124,140" />
+          </g>
+          <circle class="em-dot" cx="110" cy="110" r="7" />
+        </svg>
+      </div>
+      <h1 class="intro-title">KRACKED<em>_OS</em></h1>
+      <p class="intro-sub" id="introLine">a low-poly sketch interface for building, learning &amp; earning.</p>
+      <button class="doodle-btn big" id="surpriseBtn" type="button"><span aria-hidden="true">✦</span> Surprise me</button>
+      <div class="sticker-slot" id="stickerSlot" aria-live="polite"></div>
+    </div>
+    <button class="scroll-hint" id="scrollHint" type="button">
+      <span class="chev" aria-hidden="true">▼</span>
+      scroll to enter <span class="mono">(mwheeldown)</span>
+    </button>
+    <div class="intro-counter mono" id="surpriseCount">surprises: 0 · streak: 0</div>
+  </div>
+
+  <!-- PRESENTER -->
+  <div id="presenter" hidden>
+    <div class="deck" id="deck"></div>
+    <canvas id="ink" aria-hidden="true"></canvas>
+    <div id="laser" aria-hidden="true"></div>
+    <div class="grid-view" id="gridView" hidden></div>
+    <div class="blackout" id="blackout" hidden></div>
+    <div class="pres-top mono"><span id="presTitle">DECK</span><span id="presTimer">00:00</span></div>
+    <div class="pres-progress"><i id="presFill"></i></div>
+    <div class="pres-bar" id="presBar">
+      <button data-act="prev" title="Previous (←)">◀</button>
+      <span class="pres-count mono" id="presCount">1 / 1</span>
+      <button data-act="next" title="Next (→ / Space)">▶</button>
+      <span class="sep" aria-hidden="true"></span>
+      <button data-act="pen" title="Pen (P)">✏</button>
+      <button data-act="laser" title="Laser (L)">◉</button>
+      <button data-act="clear" title="Clear ink (C)">⌫</button>
+      <button data-act="grid" title="Grid overview (G)">▦</button>
+      <button data-act="timer" title="Timer (T)">⏱</button>
+      <button data-act="theme" title="Cycle theme (M)">◈</button>
+      <button data-act="black" title="Blackout (B)">◐</button>
+      <button data-act="full" title="Fullscreen (F)">⛶</button>
+      <button data-act="help" title="Shortcuts (?)">?</button>
+      <button data-act="exit" title="Exit (Esc)">✕</button>
+    </div>
+    <div class="pres-help mono" id="presHelp" hidden>
+      <b>SHORTCUTS</b>
+      <span>← → / Space — navigate</span><span>G — grid overview</span>
+      <span>P — pen · L — laser · C — clear ink</span><span>T — timer · M — theme · B — blackout</span>
+      <span>F — fullscreen · Esc — exit</span>
+      <span>swipe on touch · click side zones</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script src="presenter.js"></script>
+</body>
+</html>

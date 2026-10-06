@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "title": "KRACKED_OS // Ghibli-LowPoly Navigation + Horizontal Particle Parallax",
+    "version": "2.0.0",
+    "purpose": "Complete design + interaction template for the KrackedDevs creative bounty. Combines the uploaded ParentSelector / 360° navigation diagram with three horizontal-parallax particle brains and a strict Ghibli/Nausicaä low-poly sketch aesthetic.",
+    "viewport_rule": "Everything must stay inside the visible viewport on all devices. No horizontal or vertical overflow. No browser zoom. No mobile long-press popup.",
+    "created": "2026-10-07"
+  },
+
+  "art_direction": {
+    "primary_style": "Bold black sketch outlines with hand-drawn quality + low-poly 3D grease-brush/pencil surfaces (5% visible smooth polygon edges) + pen-marker outline shader + low-poly shadow + Ghibli 80s anime (Nausicaä of the Valley of the Wind) inspiration",
+    "color_palette": {
+      "--bg": "#0f1c1e",
+      "--panel": "#1a2e32",
+      "--panel-lifted": "#243b40",
+      "--outline": "#0a1214",
+      "--teal-muted": "#4a7c7e",
+      "--teal-soft": "#6b9a9c",
+      "--blue-soft": "#7a9bb0",
+      "--cream": "#e8e0d0",
+      "--shadow": "rgba(10,18,20,0.55)",
+      "--glow-subtle": "rgba(74,124,126,0.25)"
+    },
+    "surface_treatment": {
+      "boxes": "Doodle-style hand-drawn black outline + slight lifted drop-shadow (as if resting on paper). On hover: 1–2 px push-in / pressed keyboard-key effect (translateY(1px) + reduced shadow).",
+      "particles": "Low-poly grease-pencil clusters with 5% soft edge, muted teal/blue gradient, gentle hand-drawn jitter.",
+      "typography": "Slightly uneven hand-lettered feel (or a rounded mono with subtle noise). Labels use marker-outline weight."
+    },
+    "forbidden": [
+      "Neon cyberpunk glow",
+      "Hard UI chrome",
+      "Pure black/white high-contrast digital look",
+      "Smooth modern glassmorphism"
+    ]
+  },
+
+  "viewport_and_input_rules": {
+    "css_mandatory": [
+      "html, body { width: 100%; height: 100%; overflow: hidden; position: fixed; overscroll-behavior: none; }",
+      "meta viewport: width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover",
+      "touch-action: manipulation on all interactive elements",
+      "input, textarea { font-size: 16px !important; } /* prevents iOS auto-zoom */",
+      "-webkit-user-select: none; user-select: none; on non-input areas",
+      "-webkit-touch-callout: none; /* kills long-press popup on mobile */",
+      "preventDefault on gesturestart / gesturechange / gestureend",
+      "wheel event: preventDefault when over the particle stage so page never scrolls"
+    ],
+    "js_mandatory": [
+      "document.addEventListener('gesturestart', e => e.preventDefault())",
+      "document.addEventListener('gesturechange', e => e.preventDefault())",
+      "document.addEventListener('gestureend', e => e.preventDefault())",
+      "On any input focus: ensure font-size >= 16px and no scale transform on body"
+    ]
+  },
+
+  "three_particle_brains": {
+    "layout": "Horizontal row of three low-poly particle clusters (BUILD / LEARN / EARN). They stay fully inside the viewport.",
+    "parallax": {
+      "binding": "mouse wheel (mwheelup / mwheeldown) and trackpad vertical scroll",
+      "behavior": "Horizontal parallax shift only. Each brain moves at a different depth speed (0.4×, 0.7×, 1.0×). No vertical page scroll is allowed.",
+      "implementation": "Listen to wheel event on the stage container → update three CSS transforms or Three.js group positions on the X axis. Clamp so particles never leave the visible area."
+    },
+    "visual": "Low-poly grease-pencil particles, muted teal → soft blue gradient, 5% soft polygon edges, gentle hand-drawn jitter animation, bold black sketch silhouette around each cluster."
+  },
+
+  "navigation_system": {
+    "description": "Exact interaction model from the uploaded diagram, restyled as neuromorphic + minified + floating, Ghibli-sketch aesthetic.",
+    "core_component": {
+      "name": "ParentSelector (floating neuromorphic dial)",
+      "appearance": "Small circular neuromorphic button, minified, floating bottom-center or bottom-right. Soft extruded look (light top-left, shadow bottom-right) in muted teal. Bold black hand-drawn outline.",
+      "activation": "Press / click + HOLD (minimum 180 ms). On mobile: long-press does NOT open the system context menu (touch-callout + preventDefault).",
+      "gesture_after_hold": "Once held, a 360° rotation gesture is active. Clockwise or anti-clockwise drag / pointer movement rotates the selector. Release ends the gesture.",
+      "states": {
+        "idle": "Soft raised neuromorphic",
+        "held": "Pressed-in (translateY(2px) + tighter shadow) + rotation ring appears",
+        "rotating": "Ring follows finger/mouse, haptic tick on every NavTabItem snap (if available)"
+      }
+    },
+    "data_model_from_diagram": {
+      "ParentItems": [
+        { "id": "PARENTITEM1", "maps_to": "ParentPage1" },
+        { "id": "PARENTITEM2", "maps_to": "ParentPage2" },
+        { "id": "PARENTITEM3", "maps_to": "ParentPage3" }
+      ],
+      "NavTabItems_per_parent": "NavTabItem-1 … NavTabItem-7 (or fewer). Each maps to a ChildPage.",
+      "DisplayName": "Display{ParentItem}{NavTabItem}Name — updates live as the dial rotates",
+      "MAIN_MOTION": "360° clockwise / anti-clockwise",
+      "scrollAnimationMotion": ["up", "down", "mwheelup", "mwheeldown", "PgUp", "PgDown"],
+      "InertiaRotate": "default = smooth"
+    },
+    "indicator_panel": {
+      "left_side": "Vertical INDICATOR listing ParentPage1 / ParentPage2 with ChildPage links (hand-drawn boxes, lifted shadow, push-in on hover)"
+    },
+    "example_content_mapping_for_krackeddevs": {
+      "ParentPage1 (Home)": ["FeaturedDevelopers", "Bulletin Board", "x Feed", "Upcoming Hackathon", "Agentic Qualifier 2026"],
+      "ParentPage2 (CSR / Learning)": ["CSR Projects", "Volunteer Form", "Vision & Goals", "Courses HTML-CSS-JS", "x Milestone", "Gallery"]
+    }
+  },
+
+  "layout_constraints": {
+    "desktop": "Full stage fits 100vw × 100vh. Header thin, three brains horizontal center, floating ParentSelector bottom, indicator left, telemetry right.",
+    "mobile": "Same single viewport. Brains scale down and stack slightly or stay horizontal with tighter parallax range. ParentSelector larger touch target (min 48×48 px). No elements ever leave the safe area (env(safe-area-inset-*)).",
+    "no_overflow": "All absolute/fixed children must be constrained with max-width/max-height and overflow: hidden on the root stage."
+  },
+
+  "interaction_flow": [
+    "1. Page loads → three low-poly particle brains visible, horizontal, idle gentle jitter.",
+    "2. User scrolls mouse wheel → brains parallax horizontally at different depths (no page scroll).",
+    "3. User presses + holds the floating neuromorphic ParentSelector → rotation ring appears, button presses in.",
+    "4. While held, user rotates finger/mouse 360° → NavTabItems cycle, DisplayName updates, corresponding ParentPage / ChildPage content cross-fades or slides in.",
+    "5. Release → selector returns to raised state, current selection is locked.",
+    "6. Hover any doodle box → slight push-in (keyboard key) + lifted shadow reduces.",
+    "7. Tap any input field → no browser zoom (font-size 16 px rule)."
+  ],
+
+  "css_skeleton_key_rules": {
+    "root": "html,body{height:100%;overflow:hidden;position:fixed;width:100%;touch-action:none;}",
+    "stage": "#stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:var(--bg);}",
+    "brain_row": ".brain-row{display:flex;justify-content:center;align-items:center;height:55vh;gap:2vw;will-change:transform;}",
+    "doodle_box": ".doodle{border:2.5px solid var(--outline);border-radius:8px;box-shadow:3px 4px 0 var(--shadow);transition:transform .12s,box-shadow .12s;background:var(--panel);}",
+    "doodle_hover": ".doodle:hover,.doodle:active{transform:translateY(2px);box-shadow:1px 1px 0 var(--shadow);}",
+    "parent_selector": ".parent-selector{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:var(--panel-lifted);box-shadow:4px 4px 0 var(--shadow),-2px -2px 0 rgba(255,255,255,0.06);border:2.5px solid var(--outline);touch-action:none;-webkit-touch-callout:none;user-select:none;}",
+    "held_state": ".parent-selector.is-held{transform:translateX(-50%) translateY(3px);box-shadow:1px 1px 0 var(--shadow);}"
+  },
+
+  "js_skeleton_key_behaviors": {
+    "disable_zoom_and_callout": "Add the four gesture preventDefault listeners + touch-callout:none + font-size:16px on inputs.",
+    "wheel_parallax": "stage.addEventListener('wheel', e => { e.preventDefault(); const dx = e.deltaY * 0.15; brains.forEach((b,i) => b.x += dx * depths[i]); clamp(); }, {passive:false});",
+    "hold_then_rotate": "pointerdown → startHoldTimer(180). If still down after 180 ms → enterRotateMode(). pointermove while inRotateMode → calculate angle from center → update NavTabIndex with inertia. pointerup / pointercancel → exitRotateMode().",
+    "mobile_safe": "Use pointer events (not touch events alone). Call e.preventDefault() on pointerdown when over the selector so the browser never shows the callout menu."
+  },
+
+  "implementation_checklist": [
+    "Add the exact viewport meta tag that disables user scaling",
+    "Lock html/body to 100% + overflow:hidden + position:fixed",
+    "Three particle brains in a horizontal flex row, parallax on wheel only",
+    "Floating neuromorphic ParentSelector (minified, bottom center)",
+    "Press+hold → 360° rotate gesture (clockwise / anti-clockwise)",
+    "Doodle boxes with lifted shadow + push-in hover",
+    "Muted teal / soft blue / cream palette only",
+    "Low-poly grease-pencil particle look + bold black sketch outlines",
+    "No auto-zoom on input focus (16 px rule)",
+    "No long-press popup on mobile",
+    "Everything stays inside the viewport on every device"
+  ],
+
+  "quick_start_prompt": "Build a single full-viewport page for the KrackedDevs creative bounty using this exact JSON as the source of truth. Art style must be bold black hand-drawn sketch outlines + low-poly grease-pencil 3D (5% soft edges) + Ghibli/Nausicaä 80s anime muted teal & soft blue. Three particle brains sit horizontally and only move with mouse-wheel parallax (no page scroll). Navigation is a floating minified neuromorphic dial: press+hold then 360° rotate to change ParentPage / NavTabItem. All doodle boxes have lifted shadow and keyboard-key push-in on hover. Strictly disable browser zoom, mobile long-press callout, and any overflow outside the viewport. Mobile safe-area respected. Output clean HTML/CSS/JS or React + Three.js."
+}
