@@ -672,3 +672,49 @@
   window.KD.icons = ICONS;
   window.KD.resize = resize;
 })();
+
+/* ---------- GO HOME EASTER EGG ---------- */
+(function(){
+  var goBtn = document.getElementById('goHomeBtn');
+  var curtain = document.getElementById('curtain');
+  var loading = document.getElementById('loadingCenter');
+  var switchPanel = document.getElementById('switchPanel');
+  var switchBtn = document.getElementById('switchBtn');
+  var fah = document.getElementById('fahText');
+  if (!goBtn || !curtain || !loading || !switchPanel || !switchBtn || !fah) return;
+  var audio = new Audio('https://www.myinstants.com/media/sounds/fahhhhhhhhhhhhhh-3525.mp3');
+  audio.preload = 'auto';
+  audio.volume = 1.0;
+  var started = false;
+  goBtn.addEventListener('click', function(){
+    if (started) return; started = true;
+    goBtn.classList.add('is-hidden');
+    curtain.hidden = false;
+    requestAnimationFrame(function(){ curtain.classList.add('show'); });
+    setTimeout(function(){
+      curtain.classList.add('is-white');
+      loading.hidden = false;
+      requestAnimationFrame(function(){ loading.classList.add('show'); });
+    }, 950);
+    setTimeout(function(){
+      loading.classList.remove('show');
+      setTimeout(function(){ loading.hidden = true; }, 400);
+      switchPanel.hidden = false;
+      requestAnimationFrame(function(){ switchPanel.classList.add('show'); });
+    }, 950 + 5000);
+  });
+  switchBtn.addEventListener('click', function(){
+    if (switchBtn.disabled) return;
+    switchBtn.disabled = true;
+    switchBtn.classList.add('is-on');
+    fah.hidden = false;
+    requestAnimationFrame(function(){ fah.classList.add('show'); });
+    audio.currentTime = 0;
+    audio.play().catch(function(){});
+    var redirect = function(){
+      window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    };
+    audio.addEventListener('ended', redirect, { once: true });
+    setTimeout(redirect, 6500);
+  });
+})();
