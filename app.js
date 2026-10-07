@@ -682,7 +682,7 @@
   var switchBtn = document.getElementById('switchBtn');
   var fah = document.getElementById('fahText');
   if (!goBtn || !curtain || !loading || !switchPanel || !switchBtn || !fah) return;
-  var audio = new Audio('https://www.myinstants.com/media/sounds/fahhhhhhhhhhhhhh-3525.mp3');
+  var audio = new Audio('assets/mp3/fah.mp3');
   audio.preload = 'auto';
   audio.volume = 1.0;
   var started = false;
